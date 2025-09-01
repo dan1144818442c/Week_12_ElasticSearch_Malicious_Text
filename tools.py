@@ -44,9 +44,9 @@ class Loader :
     @staticmethod
     def load_from_txt_to_list(path):
         try:
-            with open(path, "r") as weapons:
+            with open(path, "r", encoding="utf-8") as weapons:
                 # read lines, strip newline, convert to lowercase
-                return [line.strip().lower() for line in weapons]
+                return [line.strip().lower()  for line in weapons]
         except FileNotFoundError:
             print("didn't find this file")
             return []
@@ -67,3 +67,7 @@ class Loader :
 # print(Loader.load_from_txt_to_list(
 #     r'C:\Users\1\Desktop\DATA_Analiza\Week_12_ElasticSearch_Malicious_Text\data\weapon_list.txt'))
 # print(Loader.load_from_csv_to_list_of_dict(r'C:\Users\1\Desktop\DATA_Analiza\Week_12_ElasticSearch_Malicious_Text\data\tweets_injected 3.csv'))
+
+
+# print(Loader.load_from_txt_to_list(
+#     r'C:\Users\1\Desktop\DATA_Analiza\Week_12_ElasticSearch_Malicious_Text\data\weapon_list.txt'))

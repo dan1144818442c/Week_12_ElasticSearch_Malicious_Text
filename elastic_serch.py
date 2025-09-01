@@ -78,4 +78,46 @@ class ElasticSearch_:
         }
 
         res = self.es.update_by_query(index=index_name, body=update_query, refresh=True)
-        print(res)
+        # print(res)
+
+    def delete_uneccercey(self, index_name):
+        field1_name = "Antisemitic"
+        field1_value = "0"
+        field2_name = "weapons_detected"
+        field3_name = "sentiment"
+        field3_value = "negative"
+
+        query = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {"term": {field1_name: field1_value}}
+                    ],
+                    "must_not": [
+                        {"exists": {"field": field2_name}},  # deletes docs with no weapons_detected
+                        {"term": {field3_name: field3_value}}  # deletes docs where sentiment == negative
+                    ]
+                }
+            }
+        }
+
+        self.es.delete_by_query(index=index_name, body=query)
+
+#
+#
+# found = []
+#     for weapon in weapons_list:
+#         query = {
+#             "query": {
+#                 "match": {
+#                     "text": {
+#                         "query": weapon,
+#                         "operator": "and"
+#                     }
+#                 }
+#             }
+#         }
+#         resp = client.search(index=ELASTIC_INDEX, body=query, size=1)
+#         if resp["hits"]["total"]["value"] > 0 and weapon.lower() in text.lower():
+#             found.append(weapon)
+#     return list(set(found))
